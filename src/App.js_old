@@ -1,0 +1,80 @@
+import { SplitPane } from "react-multi-split-pane";
+import "./styles.css";
+import React, { useEffect, useState } from "react";
+
+export default function App() {
+	const Contenido = "hola";
+
+	const [spPanes, setSpPanes] = useState([
+		{ contenido: Contenido, orientacion: "vertical" }
+	]);
+
+	let SpPane = () => {
+		console.log(spPanes.length);
+		const cKey = `k-${Date.now()}`;
+		if (spPanes.length === 1) {
+			return (
+				<div id={cKey} className="fsWrap">
+					{botonera(cKey)}
+					<div id="content">"hola"</div>
+				</div>
+			);
+		} else {
+			return (
+				<div>
+					{botonera(cKey)}
+					{JSON.stringify(spPanes)}
+				</div>
+			);
+		}
+	};
+	const botonera = (cKey) => (
+		<div className="fixButton">
+			<button onClick={splitTab(cKey, "horizontal", "extracontH")}>-</button>
+			<button onClick={splitTab(cKey, "vertical", "extracontV")}>|</button>
+		</div>
+	);
+
+	const splitTab = (ckey, orientacion, content) => {
+		setSpPanes((spPanes) => [
+			...spPanes,
+			{ contenido: content, orientacion: orientacion }
+		]);
+		//spPanes.push({ contenido: content, orientacion: orientacion });
+	};
+	// const splitTab = (ckey, orientacion, content) => {
+
+	//   const cKey = `k-${Date.now()}`;
+	// 	//setContenido([...contenido, content]);
+	// 	contenido.push(content);
+	// 	//const SpPaneTmp = SpPane;
+	// 	return (
+	// 		<div id={cKey} className="fsWrap">
+	// 			{botonera(cKey)}
+	// 			<SplitPane
+	// 				split={orientacion}
+	// 				minSize={100}
+	// 				defaultSizes={
+	// 					JSON.parse(localStorage.getItem(`splitPos-${ckey}`)) || undefined
+	// 				}
+	// 				onDragFinished={(size) =>
+	// 					localStorage.setItem(`splitPos-${ckey}`, JSON.stringify(size))
+	// 				}
+	// 			></SplitPane>
+	// 			<div>{content}</div>
+	// 		</div>
+	// 	);
+	// };
+
+	// useEffect(() => {
+	// 	console.log("llego");
+	// }, [spPanes]);
+
+	return (
+		<>
+			<div>
+				<SpPane />
+			</div>
+		</>
+	);
+}
